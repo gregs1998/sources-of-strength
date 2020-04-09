@@ -9,13 +9,50 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var session: SessionStore
+    
+    func getUser(){
+        session.listen()
+    }
+    
     var body: some View {
-        Text("Hello, World!")
+        Group{
+            if(session.user != nil){
+                TabView{
+                    NavigationView{
+                        HomeView()
+                            .navigationBarTitle("Your Outlook")
+                    }
+                    .tabItem{
+                        Image(systemName: "house")
+                        Text("Home")
+                    }
+                    ActivityTabView()
+//                        List(sources.keys.sorted(), id:\String.self, ) { key in
+//                            Section(header: Text("\(key)")){
+//                                ForEach(self.sources[key]!, id:\.id){ activity in
+//                                    ActivityRow(sourceName: "\(key)", activity: activity)
+//                                }
+//                            }
+//                        }
+                        .tabItem{
+                            Image(systemName: "book")
+                            Text("Activities")
+                    }
+                }
+            }
+            else{
+                AuthView()
+            }
+        }.onAppear(perform: getUser)
     }
 }
 
+#if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(SessionStore())
     }
 }
+#endif

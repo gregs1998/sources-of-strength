@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>973087391435-a6cl9ip8ovdoped0r1l8p17d2gmg2e7n.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.973087391435-a6cl9ip8ovdoped0r1l8p17d2gmg2e7n</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCCtLvB9scmyeYb7pJW1Rb3Yer_B_sRdok</string>
+	<key>GCM_SENDER_ID</key>
+	<string>973087391435</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>us.kyschools.berea.sources.SourcesofStrength</string>
+	<key>PROJECT_ID</key>
+	<string>bcs-wellness-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bcs-wellness-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:973087391435:ios:f3a598b40866492651654e</string>
+	<key>DATABASE_URL</key>
+	<string>https://bcs-wellness-app.firebaseio.com</string>
+</dict>
+</plist>
