@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2616A7C2243FF51400DB02CC /* LoggedActivityListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2616A7C1243FF51400DB02CC /* LoggedActivityListener.swift */; };
+		2616A7C4244001E700DB02CC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2616A7C3244001E700DB02CC /* Extensions.swift */; };
+		2616A7C6244005BB00DB02CC /* FUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2616A7C5244005BB00DB02CC /* FUser.swift */; };
+		2616A7C82440207800DB02CC /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2616A7C72440207800DB02CC /* Goals.swift */; };
 		263FDE16243ED8840014A69D /* FirebaseReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263FDE15243ED8840014A69D /* FirebaseReference.swift */; };
 		263FDE18243ED97E0014A69D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263FDE17243ED97E0014A69D /* Constants.swift */; };
 		263FDE1B243EE3DD0014A69D /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263FDE1A243EE3DD0014A69D /* Activity.swift */; };
@@ -22,6 +26,10 @@
 		265D8E69243CEC9D008B1E03 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 265D8E68243CEC9D008B1E03 /* Preview Assets.xcassets */; };
 		265D8E6C243CEC9D008B1E03 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 265D8E6A243CEC9D008B1E03 /* LaunchScreen.storyboard */; };
 		265D8E74243CEF1B008B1E03 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 265D8E73243CEF1B008B1E03 /* GoogleService-Info.plist */; };
+		269AFE8A244952100041F42C /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269AFE89244952100041F42C /* ProgressCircle.swift */; };
+		269AFE8C244965E50041F42C /* LoggedActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269AFE8B244965E50041F42C /* LoggedActivityView.swift */; };
+		269AFE8E24497BB60041F42C /* LoggedActivityRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269AFE8D24497BB60041F42C /* LoggedActivityRow.swift */; };
+		269AFE90244983730041F42C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269AFE8F244983730041F42C /* SettingsView.swift */; };
 		26AD5071243D7C6D00FAC9CB /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AD5070243D7C6D00FAC9CB /* SessionStore.swift */; };
 		26AD5075243D7DC400FAC9CB /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AD5074243D7DC400FAC9CB /* UserModel.swift */; };
 		26AD5077243D834800FAC9CB /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AD5076243D834800FAC9CB /* AuthView.swift */; };
@@ -31,6 +39,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2616A7C1243FF51400DB02CC /* LoggedActivityListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedActivityListener.swift; sourceTree = "<group>"; };
+		2616A7C3244001E700DB02CC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		2616A7C5244005BB00DB02CC /* FUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FUser.swift; sourceTree = "<group>"; };
+		2616A7C72440207800DB02CC /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
 		263FDE15243ED8840014A69D /* FirebaseReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseReference.swift; sourceTree = "<group>"; };
 		263FDE17243ED97E0014A69D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		263FDE1A243EE3DD0014A69D /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
@@ -48,6 +60,10 @@
 		265D8E6B243CEC9D008B1E03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		265D8E6D243CEC9D008B1E03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		265D8E73243CEF1B008B1E03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		269AFE89244952100041F42C /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
+		269AFE8B244965E50041F42C /* LoggedActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedActivityView.swift; sourceTree = "<group>"; };
+		269AFE8D24497BB60041F42C /* LoggedActivityRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedActivityRow.swift; sourceTree = "<group>"; };
+		269AFE8F244983730041F42C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		26AD5070243D7C6D00FAC9CB /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		26AD5074243D7DC400FAC9CB /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		26AD5076243D834800FAC9CB /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
@@ -73,8 +89,10 @@
 		263FDE19243EE39E0014A69D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				2616A7C72440207800DB02CC /* Goals.swift */,
 				263FDE15243ED8840014A69D /* FirebaseReference.swift */,
 				263FDE17243ED97E0014A69D /* Constants.swift */,
+				2616A7C3244001E700DB02CC /* Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -83,6 +101,8 @@
 			isa = PBXGroup;
 			children = (
 				263FDE20243EF65F0014A69D /* ActivityListener.swift */,
+				2616A7C1243FF51400DB02CC /* LoggedActivityListener.swift */,
+				2616A7C5244005BB00DB02CC /* FUser.swift */,
 			);
 			path = "Firebase Listeners";
 			sourceTree = "<group>";
@@ -115,7 +135,10 @@
 				26AD5076243D834800FAC9CB /* AuthView.swift */,
 				265D8E63243CEC9A008B1E03 /* ContentView.swift */,
 				26AD507A243D919200FAC9CB /* HomeView.swift */,
+				269AFE8F244983730041F42C /* SettingsView.swift */,
+				269AFE89244952100041F42C /* ProgressCircle.swift */,
 				263FDE1C243EE4DA0014A69D /* ActivityRow.swift */,
+				269AFE8D24497BB60041F42C /* LoggedActivityRow.swift */,
 				265D8E65243CEC9D008B1E03 /* Assets.xcassets */,
 				265D8E6A243CEC9D008B1E03 /* LaunchScreen.storyboard */,
 				265D8E6D243CEC9D008B1E03 /* Info.plist */,
@@ -125,9 +148,10 @@
 				263FDE19243EE39E0014A69D /* Helpers */,
 				263FDE1A243EE3DD0014A69D /* Activity.swift */,
 				263FDE1E243EF5580014A69D /* ActivityTabView.swift */,
+				269AFE8B244965E50041F42C /* LoggedActivityView.swift */,
 				263FDE23243EFB010014A69D /* ActivityDetail.swift */,
-				263FDE22243EF66A0014A69D /* Firebase Listeners */,
 				263FDE25243F00C30014A69D /* LoggedActivity.swift */,
+				263FDE22243EF66A0014A69D /* Firebase Listeners */,
 			);
 			path = SourcesofStrength;
 			sourceTree = "<group>";
@@ -273,19 +297,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2616A7C82440207800DB02CC /* Goals.swift in Sources */,
 				263FDE16243ED8840014A69D /* FirebaseReference.swift in Sources */,
+				2616A7C4244001E700DB02CC /* Extensions.swift in Sources */,
 				263FDE18243ED97E0014A69D /* Constants.swift in Sources */,
+				269AFE8A244952100041F42C /* ProgressCircle.swift in Sources */,
 				263FDE24243EFB010014A69D /* ActivityDetail.swift in Sources */,
 				26DD5229243E478C008A466A /* EmptyView.swift in Sources */,
 				265D8E60243CEC9A008B1E03 /* AppDelegate.swift in Sources */,
+				269AFE8E24497BB60041F42C /* LoggedActivityRow.swift in Sources */,
+				269AFE90244983730041F42C /* SettingsView.swift in Sources */,
 				26AD507B243D919200FAC9CB /* HomeView.swift in Sources */,
+				269AFE8C244965E50041F42C /* LoggedActivityView.swift in Sources */,
 				263FDE1F243EF5580014A69D /* ActivityTabView.swift in Sources */,
 				263FDE1D243EE4DA0014A69D /* ActivityRow.swift in Sources */,
 				265D8E62243CEC9A008B1E03 /* SceneDelegate.swift in Sources */,
 				263FDE1B243EE3DD0014A69D /* Activity.swift in Sources */,
 				26AD5077243D834800FAC9CB /* AuthView.swift in Sources */,
+				2616A7C6244005BB00DB02CC /* FUser.swift in Sources */,
 				263FDE21243EF65F0014A69D /* ActivityListener.swift in Sources */,
 				26AD5071243D7C6D00FAC9CB /* SessionStore.swift in Sources */,
+				2616A7C2243FF51400DB02CC /* LoggedActivityListener.swift in Sources */,
 				26AD5075243D7DC400FAC9CB /* UserModel.swift in Sources */,
 				263FDE26243F00C30014A69D /* LoggedActivity.swift in Sources */,
 				265D8E64243CEC9A008B1E03 /* ContentView.swift in Sources */,

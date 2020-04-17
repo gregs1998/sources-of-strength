@@ -22,6 +22,22 @@ enum Source: String, CaseIterable, Codable, Hashable{
     
 }
 
+public struct SourceData: Hashable{
+    var name:String
+    var readableName:String
+    var color:Color
+    var goalValue: CGFloat
+}
+
+public let sourcesArray: [SourceData] = [SourceData(name: kFAMILYSUPPORT, readableName: "Family Support", color: Color.orange, goalValue: kFAMILYSUPPORT_GOALVAL),
+                                         SourceData(name: kPOSITIVEFRIENDS, readableName: "Positive Friends", color: .yellow, goalValue: kPOSITIVEFRIENDS_GOALVAL),
+                                         SourceData(name: kMENTORS, readableName: "Mentors", color:.green, goalValue: kMENTORS_GOALVAL),
+                                         SourceData(name: kHEALTHYACTIVITIES, readableName: "Healthy Activities", color: .purple, goalValue: kHEALTHYACTIVITIES_GOALVAL),
+                                         SourceData(name: kGENEROSITY, readableName: "Generosity", color:.gray, goalValue: kGENEROSITY_GOALVAL),
+                                         SourceData(name:kSPIRITUALITY, readableName: "Spirituality", color:.pink, goalValue: kSPIRITUALITY_GOALVAL),
+                                         SourceData(name:kMEDICALACCESS, readableName: "Medical Access", color:.blue, goalValue: kMEDICALACCESS_GOALVAL),
+                                         SourceData(name:kMENTALHEALTH, readableName: "Mental Health", color:.red, goalValue: kMENTALHEALTH_GOALVAL)]
+
 struct Activity: Identifiable, Hashable{
     
     var id: String
@@ -77,3 +93,9 @@ let activityData = [
 
 
 
+
+struct Activity_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
+}

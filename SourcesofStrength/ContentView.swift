@@ -28,17 +28,29 @@ struct ContentView: View {
                         Image(systemName: "house")
                         Text("Home")
                     }
-                    ActivityTabView()
-//                        List(sources.keys.sorted(), id:\String.self, ) { key in
-//                            Section(header: Text("\(key)")){
-//                                ForEach(self.sources[key]!, id:\.id){ activity in
-//                                    ActivityRow(sourceName: "\(key)", activity: activity)
-//                                }
-//                            }
-//                        }
+                    NavigationView{
+                        LoggedActivityView()
+                    }
+                        //                        List(sources.keys.sorted(), id:\String.self, ) { key in
+                        //                            Section(header: Text("\(key)")){
+                        //                                ForEach(self.sources[key]!, id:\.id){ activity in
+                        //                                    ActivityRow(sourceName: "\(key)", activity: activity)
+                        //                                }
+                        //                            }
+                        //                        }
                         .tabItem{
                             Image(systemName: "book")
                             Text("Activities")
+                    }
+                    EmptyView()
+                        .tabItem{
+                            Image(systemName: "person.3")
+                            Text("Friends")
+                    }
+                    EmptyView()
+                        .tabItem{
+                            Image(systemName: "ellipsis")
+                            Text("More")
                     }
                 }
             }

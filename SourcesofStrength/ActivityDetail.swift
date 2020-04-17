@@ -13,7 +13,9 @@ struct ActivityDetail: View {
     var activity: Activity
     
     @State private var dateCreated = Date()
-
+    @EnvironmentObject var session: SessionStore
+    
+    @State var goals: [String:Any] = [:]
     
     var body: some View {
         Form{
@@ -37,12 +39,15 @@ struct ActivityDetail: View {
                     Text("My Goals")
                         .font(.system(size:32))
                         .fontWeight(.bold)
+                    //GoalView(goalWeek: $dateCreated, source: activity.source.rawValue)
                     Text("\(activity.source.rawValue)")
                         .padding(.bottom, 200)
+                }
+                Section{
                     Button(action:{
-                        
+                        self.addActivityToLoggedActivity()
                     }){
-                        Text("Hi!")
+                        Text("Add to Log!")
                     }
                 }
             }
@@ -50,7 +55,63 @@ struct ActivityDetail: View {
             
         }
     }//End of ScrollView
+    
+    private func addActivityToLoggedActivity(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = kFORMATDATE
+        
+        var loggedActivity: LoggedActivity!
+        
+        loggedActivity = LoggedActivity()
+        loggedActivity.ownerId = self.session.user?.uid
+        loggedActivity.id = UUID().uuidString
+        loggedActivity.completedOn = formatter.string(from: self.dateCreated)
+        loggedActivity.goalWeek = formatter.string(from: dateCreated.startOfWeek ?? Date())
+        loggedActivity.set(self.activity)
+        loggedActivity.saveLoggedActivityToFirestore()
+        addActivityPointsToGoal(forWeek: loggedActivity.goalWeek)
+        
+    }
+    
+    private func addActivityPointsToGoal(forWeek: String){
+        FirebaseReference(.Goals).whereField(kOWNERID, isEqualTo: self.session.user?.uid).whereField(kGOALWEEK, isEqualTo: forWeek).getDocuments { (snapshot, error) in
+            guard let snapshot = snapshot else { return }
+            
+            if snapshot.isEmpty{
+                let newGoals = Goals()
+                newGoals.id = UUID().uuidString
+                newGoals.goalWeek = forWeek
+                newGoals.ownerId = self.session.user?.uid
+                let newGoalsDictionary = goalsDictionaryFrom(newGoals)
+                let newGoalsMutable = (newGoalsDictionary as NSDictionary).mutableCopy() as! NSMutableDictionary
+                newGoalsMutable.setValue(self.activity.points, forKey: self.activity.source.rawValue)
+                FirebaseReference(.Goals).document(newGoals.id).setData(newGoalsMutable as! [String:Any])
+            }
+            
+            else{
+                
+                let userGoalsForPeriod = snapshot.documents.first!.data()
+                let userSourcePoints: Int = userGoalsForPeriod[self.activity.source.rawValue] as? Int ?? 0
+                let userGoalsForPeriodMutable = (userGoalsForPeriod as NSDictionary).mutableCopy() as! NSMutableDictionary
+                userGoalsForPeriodMutable[self.activity.source.rawValue] = (userSourcePoints+self.activity.points)
+                FirebaseReference(.Goals).document(userGoalsForPeriod[kID] as! String).setData(userGoalsForPeriodMutable as! [String:Any])
+            }
+            
+        }
+        
+        var goals: Goals!
+        goals = Goals()
+        goals.ownerId = session.user?.uid
+        goals.id = UUID().uuidString
+        
+        
+        // check if user has basket
+    }
+    
 }
+
+
 
 
 struct ActivityDetail_Previews: PreviewProvider {
