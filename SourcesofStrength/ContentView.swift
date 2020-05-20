@@ -7,13 +7,22 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
     
     @EnvironmentObject var session: SessionStore
+    //    @ObservedObject var goalsListener: GoalsListener
+    @State var presentModal: Bool = false
     
-    func getUser(){
-        session.listen()
+    func initSession(){
+        session.listen{
+            self.session.currentFUser.getFUserFromFirebase(uid: self.session.user?.uid ?? "ERROR"){
+                if !self.session.currentFUser.onboarding{
+                    self.presentModal = true
+                }
+            }
+        }
     }
     
     var body: some View {
@@ -23,13 +32,14 @@ struct ContentView: View {
                     NavigationView{
                         HomeView()
                             .navigationBarTitle("Your Outlook")
+                            .environmentObject(self.session)
                     }
                     .tabItem{
                         Image(systemName: "house")
                         Text("Home")
                     }
                     NavigationView{
-                        LoggedActivityView()
+                        LoggedActivityView().environmentObject(self.session)
                     }
                         //                        List(sources.keys.sorted(), id:\String.self, ) { key in
                         //                            Section(header: Text("\(key)")){
@@ -47,24 +57,39 @@ struct ContentView: View {
                             Image(systemName: "person.3")
                             Text("Friends")
                     }
-                    EmptyView()
-                        .tabItem{
-                            Image(systemName: "ellipsis")
-                            Text("More")
+                    NavigationView{
+                        SettingsView()
+                        .navigationBarTitle("Settings")
+                        }
+                    .tabItem{
+                        Image(systemName: "ellipsis")
+                        Text("More")
                     }
+                    
                 }
             }
             else{
-                AuthView()
+                AuthView().environmentObject(self.session)
             }
-        }.onAppear(perform: getUser)
+        }.onAppear(perform: {
+            self.initSession()
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                if success {
+                    print("All set!")
+                } else if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }).sheet(isPresented: $presentModal, content: {
+            UserOnboardingView().environmentObject(self.session)
+        })
     }
 }
 
 #if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView().environmentObject(SessionStore())
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView(goalsListener: <#T##GoalsListener#>).environmentObject(SessionStore())
+//    }
+//}
 #endif

@@ -73,21 +73,26 @@ func createActivityList(){
 }
 
 let activityData = [
-    // FAMILY SUPPORT
-    Activity(id:UUID().uuidString, title:"Develop a Morning Ritual", source: .familySupport, description: "Develop a morning ritual to greet the morning and the day, and invite your family to participate!", points: 5),
-    Activity(id: UUID().uuidString, title: "Make Breakfast or Morning Drink", source: .familySupport, description: "Make someone in your household breakfast in bed or prepare their favorite morning drink (tea, coffee, hot chocolate, juice, etc.).", points: 5),
-    Activity(id: UUID().uuidString, title: "Try Eggs Different Ways", source: .familySupport, description: "Make breakfast for your family or roomates by making eggs several different ways: sunny side up, scrambled, over easy, poached...", points: 5),
-    
-    //POSITIVE FRIENDS
-    Activity(id: UUID().uuidString, title: "Send Pic of Morning Coffee to 3 Friends", source: .positiveFriends, description: "Text 3 friends a picture of your morning cup of coffee.", points: 5),
-    Activity(id: UUID().uuidString, title: "Invite a Friend to LongWalks", source: .positiveFriends, description: "Invite friends to download the LongWalks app for a guided group journal entry to keep in touch with how you're doing mentally and emotionally.", points: 5),
-    Activity(id: UUID().uuidString, title: "Learn Yoga with Friends", source: .positiveFriends, description: "Learn a few moves and lead a yoga or workout class for friends via FaceTime, Zoom, or Instagram Live.", points: 5),
-    
-    //MENTORS
-    Activity(id: UUID().uuidString, title: "Send a Mentor a Fun Article or Picture", source: .mentors, description: "Send a mentor a baby animal video or an article on a topic you know they enjoy! Remind them to take care of themselves as well.", points: 5),
-    Activity(id: UUID().uuidString, title: "Send a Thank-You Note to Someone Who Helped", source: .mentors, description: "Reflect on someone who once provided you tough feedback that challenged you to become a better person. Send them a thank you note on LinkedIn, Facebook, or e-mail to let them know the positive impact they had on you.", points: 5),
-    Activity(id: UUID().uuidString, title: "Be a Mentor - Build a Pillow Fort", source: .mentors, description: "Be a mentor to a younger family member by making a pillow fort with them.", points: 5)
-    
+    // HEALTHY ACTIVITIES
+    Activity(id: UUID().uuidString, title: "Think of 3 Things You're Thankful For", source: .healthyActivities, description: "When you wake up, think of 3 things you are thankful for before getting out of bed.", points: 5),
+    Activity(id: UUID().uuidString, title: "Meditation", source: .healthyActivities, description: "Start the day with meditation!", points: 5),
+    Activity(id: UUID().uuidString, title: "Take 5 Deep Breaths", source: .healthyActivities, description: "Stand outside or at a window with the sun on your face and take 5 deep breaths. Do this without any phones or music!", points: 5),
+    // GENEROSITY
+    Activity(id: UUID().uuidString, title: "Walk Your Dog", source: .generosity, description: "Walk your dog outside!", points: 5),
+    Activity(id: UUID().uuidString, title: "Clean a Section of Your House", source: .generosity, description: "Clean a section of your room or house. Folding laundry, wiping, counters, it all helps!", points: 5),
+    Activity(id: UUID().uuidString, title: "Ask Your Parents: How Can I Help?", source: .generosity, description: "Ask your parents how you can help them today.", points: 5),
+    //SPIRITUALITY
+    Activity(id: UUID().uuidString, title: "Watch Sunrise", source: .spirituality, description: "Watch the sunrise from your window or yard.", points: 5),
+    Activity(id: UUID().uuidString, title: "Write Down your Dreams", source: .spirituality, description: "Write down your dreams when you wake up!", points: 5),
+    Activity(id: UUID().uuidString, title: "Practice Journaling for 30 mins", source: .spirituality, description: "Practice journaling for a half hour when you wake up", points: 5),
+    //MEDICAL ACCESS
+    Activity(id: UUID().uuidString, title: "Wash Your Hands to \'Love on Top\'", source: .medicalAccess, description: "Wash your hands to \"Love on Top\" by Beyonce", points: 5),
+    Activity(id: UUID().uuidString, title: "Drink Water", source: .medicalAccess, description: "Drink water to start your day strong!", points: 5),
+    Activity(id: UUID().uuidString, title: "Spa Day at Home", source: .medicalAccess, description: "Spa day! Take the time to comb your hair, take a bath, and make a homemade face mask.", points: 5),
+    //MENTAL HEALTH
+    Activity(id: UUID().uuidString, title: "Think of 3 Things You're Excited For", source: .mentalHealth, description: "Wake up and tell yourself 3 things you are excited about for today.", points: 5),
+    Activity(id: UUID().uuidString, title: "Make Your Bed", source:.mentalHealth, description: "Help start your day strong by making your bed and changing into a favorite outfit.", points: 5),
+    Activity(id: UUID().uuidString, title: "Make a List of Goals for Today", source: .mentalHealth, description: "Create a list of goals for what you can accomplish each day! Give yourself a high five, a pat on the back, or a verbal \"well done\" for each thing you accomplish throughout the day.", points: 5)
 ]
 
 

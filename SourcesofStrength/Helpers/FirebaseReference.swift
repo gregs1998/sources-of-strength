@@ -14,6 +14,7 @@ enum FCollectionReference: String {
     case Activity
     case LoggedActivity
     case Goals
+    case FUser
 }
 
 func FirebaseReference(_ collectionReference: FCollectionReference) -> CollectionReference{

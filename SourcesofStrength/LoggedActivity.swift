@@ -39,6 +39,7 @@ class LoggedActivity: Identifiable{
         
         FirebaseReference(.LoggedActivity).document(self.id).setData(loggedActivityDictionaryFrom(self))
         
+        
     }
     
     func deleteLoggedActivity(){
@@ -46,16 +47,14 @@ class LoggedActivity: Identifiable{
         
         let currentGoalWeek = self.goalWeek
         
-        FirebaseReference(.Goals).whereField(kOWNERID, isEqualTo: Auth.auth().currentUser?.uid as Any).whereField(kGOALWEEK, isEqualTo: currentGoalWeek).getDocuments { (snapshot, error) in
+        FirebaseReference(.Goals).whereField(kOWNERID, isEqualTo: Auth.auth().currentUser?.uid as Any).whereField(kGOALWEEK, isEqualTo: currentGoalWeek as Any).getDocuments { (snapshot, error) in
         guard let snapshot = snapshot else { return }
             
             if (!snapshot.isEmpty){
                 guard let document = snapshot.documents.first?.data() else { return }
                 let documentID = document[kID] as! String
                 let sourceValue = document[self.activity.source.rawValue] as! Int
-                FirebaseReference(.Goals).document(documentID).setData([self.activity.source.rawValue:sourceValue-self.activity.points]) { (err) in
-                    print(err?.localizedDescription as Any)
-                }
+                FirebaseReference(.Goals).document(documentID).updateData([self.activity.source.rawValue:sourceValue-self.activity.points])
             }
         }
     }
@@ -66,10 +65,10 @@ func loggedActivityDictionaryFrom(_ loggedActivity: LoggedActivity) -> [String:A
     let activityId: String = loggedActivity.activity.id
     
     
-    return NSDictionary(objects: [loggedActivity.id,
-                                  loggedActivity.ownerId,
-                                  loggedActivity.completedOn,
-                                  loggedActivity.goalWeek,
+    return NSDictionary(objects: [loggedActivity.id as Any,
+                                  loggedActivity.ownerId as Any,
+                                  loggedActivity.completedOn as Any,
+                                  loggedActivity.goalWeek as Any,
                                   activityId],
                         forKeys: [kID as NSCopying,
                                   kOWNERID as NSCopying,

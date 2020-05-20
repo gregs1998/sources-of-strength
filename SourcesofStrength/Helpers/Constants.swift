@@ -31,6 +31,7 @@ public let kSCHOOL = "school"
 public let kGRADE = "grade"
 public let kPOSITION = "position"
 public let kONBOARDING = "onboarding"
+public let kGOALMAX = "goalmax"
 
 // ACTIVITY
 public let kID = "id"

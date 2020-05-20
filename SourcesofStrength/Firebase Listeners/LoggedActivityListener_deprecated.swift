@@ -12,16 +12,16 @@ import Firebase
 class LoggedActivityListener: ObservableObject{
     
     @Published var loggedActivities: [LoggedActivity]! = []
-            
+    
     init(){
         downloadLoggedActivities()
     }
     
     func downloadLoggedActivities(){
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = kFORMATDATE
-//
-//        let goalWindow = formatter.string(from: week.startOfWeek ?? Date())
+        //        let formatter = DateFormatter()
+        //        formatter.dateFormat = kFORMATDATE
+        //
+        //        let goalWindow = formatter.string(from: week.startOfWeek ?? Date())
         
         FirebaseReference(.LoggedActivity).whereField(kOWNERID, isEqualTo: Auth.auth().currentUser!.uid).getDocuments{ (snapshot, error) in
             
@@ -47,8 +47,6 @@ class LoggedActivityListener: ObservableObject{
                     }
                     
                 }
-                
-                
             }
             
         }

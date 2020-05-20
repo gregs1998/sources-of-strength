@@ -19,23 +19,19 @@ struct LoggedActivityView: View {
         return formatter
     }()
     
-    @State var goalPoints: [String:CGFloat] = [kFAMILYSUPPORT: 0.0,
-                                               kPOSITIVEFRIENDS: 0.0,
-                                               kMENTORS: 0.0,
-                                               kHEALTHYACTIVITIES: 0.0,
-                                               kGENEROSITY: 0.0,
-                                               kSPIRITUALITY: 0.0,
-                                               kMEDICALACCESS: 0.0,
-                                               kMENTALHEALTH: 0.0]
+    static var firstAppear: Bool = true
+    
+    @State var goalPoints: [String:Any] = [:]
     
     @State var goalDate: Date = Date()
     
     @State var presentingAddView = false
     
+    @State var activities: [Activity] = []
+    
     func goBackWeek(){
         let startOfWeek = self.goalDate.startOfWeek
         self.goalDate = startOfWeek!.addingTimeInterval(kONEWEEKBACK)
-        getGoal()
     }
     
     func goForwardWeek(){
@@ -43,148 +39,104 @@ struct LoggedActivityView: View {
         self.goalDate = startOfWeek!.addingTimeInterval(kONEWEEKFORWARD)
     }
     
-    func clearPoints(){
-        self.goalPoints[kFAMILYSUPPORT] = 0.0
-        self.goalPoints[kPOSITIVEFRIENDS] = 0.0
-        self.goalPoints[kMENTORS] = 0.0
-        self.goalPoints[kHEALTHYACTIVITIES] = 0.0
-        self.goalPoints[kGENEROSITY] = 0.0
-        self.goalPoints[kSPIRITUALITY] = 0.0
-        self.goalPoints[kMEDICALACCESS] = 0.0
-        self.goalPoints[kMENTALHEALTH] = 0.0
-    }
-    
     func getGoal(){
-        let formatter = DateFormatter()
-        formatter.dateFormat = kFORMATDATE
-        
-        let goalWindow = formatter.string(from: self.goalDate.startOfWeek ?? Date())
-        
-        FirebaseReference(.Goals).whereField(kOWNERID, isEqualTo: self.session.user?.uid as Any).whereField(kGOALWEEK, isEqualTo: goalWindow).getDocuments { (snapshot, error) in
-            guard let snapshot = snapshot else { return }
-            
-            if(!snapshot.isEmpty){
-                for snapshot in snapshot.documents{
-                    let data = snapshot.data()
-                    for source in sourcesArray {
-                        self.goalPoints[source.name] = data[source.name] as? CGFloat
-                    }
-                }
-            }
-                
-            else{
-                self.clearPoints()
-            }
-        }
+        self.goalPoints = self.session.getUserGoalsFromLocalSession(goalDate: goalDate)
     }
     
     func delete(at offsets:IndexSet){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = kFORMATDATE
+        
+        let goalWeek = formatter.string(from: goalDate.startOfWeek ?? Date())
+        
         for index in offsets{
-            let previousValue = Int(Float(goalPoints[loggedActivities[index].activity.source.rawValue] ?? 0.0))
-            self.goalPoints[loggedActivities[index].activity.source.rawValue] = CGFloat(previousValue - loggedActivities[index].activity.points)
-            self.loggedActivities[index].deleteLoggedActivity()
-            self.loggedActivities.remove(at: index)
-
+            self.session.addPointsToUserGoals(goalWeek: goalWeek, source: (loggedActivities[index].activity.source.rawValue), pointsToAdd: (loggedActivities[index].activity.points * -1)){
+                self.loggedActivities[index].deleteLoggedActivity()
+                self.session.deleteUserLoggedActivity(loggedActivity: self.loggedActivities[index]){
+                    self.loggedActivities = self.session.getUserLoggedActivitiesFromLocalSession(goalDate: self.goalDate)
+                    self.getGoal()
+                }
+            }
         }
     }
     
     var body: some View {
+        VStack{
             VStack{
-                VStack{
-                    HStack{
-                        Spacer()
-                        Text("WEEK OF")
-                            .foregroundColor(Color.black)
-                            .fontWeight(.semibold)
-                        Spacer()
-                    }
-                    HStack(alignment: .top){
-                        Button(action: {
-                            self.goBackWeek()
-                            self.getGoal()
-                            self.downloadLoggedActivities()
-                        }){
-                            Text("Last week")
-                        }
-                        Spacer()
-                        Text("\(goalDate, formatter: Self.taskDateFormat)")
-                        Spacer()
-                        Button(action: {
-                            self.goForwardWeek()
-                            self.getGoal()
-                            self.downloadLoggedActivities()
-                        }){
-                            Text("Next Week")
-                        }.disabled(self.goalDate.startOfWeek == Date().startOfWeek)
-                    }
-                    .padding(.horizontal, 20)
+                HStack{
+                    Spacer()
+                    Text("WEEK OF")
+                        .foregroundColor(Color.black)
+                        .fontWeight(.semibold)
+                    Spacer()
                 }
-                Form{
-                    ForEach(sourcesArray, id:\.self) { source in
-                        Section{
-                            HStack{
-                                Text("\(source.readableName)").foregroundColor(source.color)
-                                Spacer()
-                                Text("\(Int(self.goalPoints[source.name] ?? 0))/\(Int(source.goalValue)) pts")
-                            }
-                            ForEach(self.loggedActivities, id:\.id) { loggedActivity in
-                                Group{
-                                    if(loggedActivity.activity.source.rawValue == source.name){
-                                        LoggedActivityRow(loggedActivity: loggedActivity)
-                                    }
-                                }
-                            }.onDelete(perform: self.delete)
-                            NavigationLink(destination: ActivityTabView(source: source)){
-                                Text("Add Activity").foregroundColor(source.color)
-                            }
-                        }
+                HStack(alignment: .top){
+                    Button(action: {
+                        self.goBackWeek()
+                        self.getGoal()
+                        self.downloadLoggedActivities()
+                    }){
+                        Text("Last week")
                     }
+                    Spacer()
+                    Text("\(goalDate, formatter: Self.taskDateFormat)")
+                    Spacer()
+                    Button(action: {
+                        self.goForwardWeek()
+                        self.getGoal()
+                        self.downloadLoggedActivities()
+                    }){
+                        Text("Next Week")
+                    }.disabled(self.goalDate.startOfWeek == Date().startOfWeek)
                 }
-            }.onAppear(perform: {
-                self.getGoal()
-                self.downloadLoggedActivities()
-            }).navigationBarTitle(Text("Activity Log"), displayMode: .inline)
-    }
-        
-        
-        func downloadLoggedActivities(){
-            self.loggedActivities = []
-            let formatter = DateFormatter()
-            formatter.dateFormat = kFORMATDATE
-            
-            let goalWindow = formatter.string(from: self.goalDate.startOfWeek!)
-            
-            FirebaseReference(.LoggedActivity).whereField(kOWNERID, isEqualTo: self.session.user?.uid).whereField(kGOALWEEK, isEqualTo: goalWindow).getDocuments{ (snapshot, error) in
-                
-                guard let snapshot = snapshot else{
-                    return
-                }
-                
-                if (!snapshot.isEmpty){
-                    
-                    for snapshot in snapshot.documents{
-                        let loggedActivityData = snapshot.data()
-                        
-                        self.loggedActivities = []
-                        getActivitiesFromFirestore(withId: loggedActivityData[kACTIVITYID] as? String ?? "") { (activity) in
-                            
-                            let loggedActivity = LoggedActivity()
-                            loggedActivity.id = loggedActivityData[kID] as? String ?? UUID().uuidString
-                            loggedActivity.activity = activity
-                            loggedActivity.ownerId = loggedActivityData[kID] as? String ?? "unknown"
-                            loggedActivity.completedOn = loggedActivityData[kCREATEDON] as? String ?? "00-00-0000"
-                            loggedActivity.goalWeek = loggedActivityData[kGOALWEEK] as? String ?? "00-00-0000"
-                            self.loggedActivities.append(loggedActivity)
-                        }
-                        
-                    }
-                    
-                    
-                }
-                
+                .padding(.horizontal, 20)
             }
-        }
-
+            Form{
+                ForEach(sourcesArray, id:\.self) { source in
+                    Section{
+                        HStack{
+                            Text("\(source.readableName)").foregroundColor(source.color)
+                            Spacer()
+                            Text("\(Int(self.goalPoints[source.name] as? CGFloat ?? 0))/\(self.session.currentFUser.goalMax) pts")
+                        }
+                        ForEach(self.loggedActivities, id:\.id) { loggedActivity in
+                            Group{
+                                if(loggedActivity.activity.source.rawValue == source.name){
+                                    LoggedActivityRow(loggedActivity: loggedActivity)
+                                }
+                            }
+                        }.onDelete(perform: self.delete)
+                        NavigationLink(destination: ActivityTabView(source: source, activities: self.activities).environmentObject(self.session)){
+                            Text("Add Activity").foregroundColor(source.color)
+                        }
+                    }
+                }
+            }
+        }.onAppear(perform: {
+            if(self.session.activitiesForSession.isEmpty){
+                print("I AM LOADING LOGGED ACTIVITIES FROM FIREBASE")
+                self.session.getActivitiesFromFirebase() {
+                    self.activities = self.session.getActivitiesFromLocalSession()
+                    self.session.getUserLoggedActivitiesFromFirebase {
+                        self.downloadLoggedActivities()
+                        self.getGoal()
+                    }
+                }
+                LoggedActivityView.self.firstAppear = false
+            }
+            self.getGoal()
+            self.downloadLoggedActivities()
+        }).navigationBarTitle(Text("Activity Log"), displayMode: .inline)
+    }
+    
+    
+    func downloadLoggedActivities(){
+        self.activities = self.session.getActivitiesFromLocalSession()
+        self.loggedActivities = self.session.getUserLoggedActivitiesFromLocalSession(goalDate: self.goalDate)
+    }
+    
+    
 }
 
 struct LoggedActivityView_Previews: PreviewProvider {

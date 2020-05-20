@@ -11,6 +11,7 @@ import SwiftUI
 struct ActivityRow: View {
     
     var activity: Activity
+    var source: SourceData
     
     var body: some View {
         VStack(alignment: .leading){
@@ -19,7 +20,7 @@ struct ActivityRow: View {
                     .fontWeight(.bold)
                 Spacer()
                 Text("\(activity.points) pts")
-            }
+            }.foregroundColor(source.color)
             .padding(.bottom, 20)
             Text(activity.description)
         }
@@ -27,8 +28,8 @@ struct ActivityRow: View {
 }
 
 
-struct ActivityRow_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityRow(activity: activityData[0])
-    }
-}
+//struct ActivityRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ActivityRow(activity: activityData[0])
+//    }
+//}

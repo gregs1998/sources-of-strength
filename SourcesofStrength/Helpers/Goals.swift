@@ -14,7 +14,7 @@ class Goals: Identifiable, ObservableObject{
     var id: String!
     var ownerId: String!
     var goalWeek: String!
-    @Published var familySupport: CGFloat = 0.0
+    @Published var familySupport: Int = 0
     @Published var positiveFriends: Int = 0
     @Published var mentors: Int = 0
     @Published var healthyActivities: Int = 0
@@ -73,7 +73,7 @@ func goalsFrom(_ dictionary: [String:Any]) -> Goals{
     goals.id = dictionary[kID] as? String
     goals.ownerId = dictionary[kOWNERID] as? String
     goals.goalWeek = dictionary[kGOALWEEK] as? String
-    goals.familySupport = dictionary[kFAMILYSUPPORT] as? CGFloat ?? 0.0
+    goals.familySupport = dictionary[kFAMILYSUPPORT] as? Int ?? 0
     goals.positiveFriends = dictionary[kPOSITIVEFRIENDS] as? Int ?? 0
     goals.mentors = dictionary[kMENTORS] as? Int ?? 0
     goals.healthyActivities = dictionary[kHEALTHYACTIVITIES] as? Int ?? 0

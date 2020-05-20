@@ -18,18 +18,19 @@ struct HomeView: View {
         return formatter
     }()
     
+    static var firstAppear: Bool = true
+        
     @EnvironmentObject var session: SessionStore
-    @ObservedObject var loggedActivityListener = LoggedActivityListener()
+//    @ObservedObject var userGoals: GoalsListener
+//    @ObservedObject var loggedActivityListener = LoggedActivityListener()
+    
+//    init(userGoals: GoalsListener){
+//        userGoals.currentUser = self.session.user
+//        userGoals.getUserGoalsFromFirebase()
+//    }
     
     // Goal Value State Vars
-    @State var goalPoints: [String:CGFloat] = [kFAMILYSUPPORT: 0.0,
-                                               kPOSITIVEFRIENDS: 0.0,
-                                               kMENTORS: 0.0,
-                                               kHEALTHYACTIVITIES: 0.0,
-                                               kGENEROSITY: 0.0,
-                                               kSPIRITUALITY: 0.0,
-                                               kMEDICALACCESS: 0.0,
-                                               kMENTALHEALTH: 0.0]
+    @State var goalPoints: [String:Any] = [:]
     
     @State var goalDate: Date = Date()
     
@@ -38,12 +39,13 @@ struct HomeView: View {
     func goBackWeek(){
         let startOfWeek = self.goalDate.startOfWeek
         self.goalDate = startOfWeek!.addingTimeInterval(kONEWEEKBACK)
-        getGoal()
+        self.goalPoints = self.session.getUserGoalsFromLocalSession(goalDate: goalDate)
     }
     
     func goForwardWeek(){
         let startOfWeek = self.goalDate.startOfWeek
         self.goalDate = startOfWeek!.addingTimeInterval(kONEWEEKFORWARD)
+        self.goalPoints = self.session.getUserGoalsFromLocalSession(goalDate: goalDate)
     }
     
     func clearPoints(){
@@ -57,29 +59,29 @@ struct HomeView: View {
         self.goalPoints[kMENTALHEALTH] = 0.0
     }
     
-    func getGoal(){
-        let formatter = DateFormatter()
-        formatter.dateFormat = kFORMATDATE
-        
-        let goalWindow = formatter.string(from: self.goalDate.startOfWeek ?? Date())
-        
-        FirebaseReference(.Goals).whereField(kOWNERID, isEqualTo: self.session.user?.uid as Any).whereField(kGOALWEEK, isEqualTo: goalWindow).getDocuments { (snapshot, error) in
-            guard let snapshot = snapshot else { return }
-            
-            if(!snapshot.isEmpty){
-                for snapshot in snapshot.documents{
-                    let data = snapshot.data()
-                    for source in sourcesArray {
-                        self.goalPoints[source.name] = data[source.name] as? CGFloat
-                    }
-                }
-            }
-                
-            else{
-                self.clearPoints()
-            }
-        }
-    }
+//    func getGoal(){
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = kFORMATDATE
+//
+//        let goalWindow = formatter.string(from: self.goalDate.startOfWeek ?? Date())
+//
+//        FirebaseReference(.Goals).whereField(kOWNERID, isEqualTo: self.session.user?.uid as Any).whereField(kGOALWEEK, isEqualTo: goalWindow).getDocuments { (snapshot, error) in
+//            guard let snapshot = snapshot else { return }
+//
+//            if(!snapshot.isEmpty){
+//                for snapshot in snapshot.documents{
+//                    let data = snapshot.data()
+//                    for source in sourcesArray {
+//                        self.goalPoints[source.name] = data[source.name] as? CGFloat
+//                    }
+//                }
+//            }
+//
+//            else{
+//                self.clearPoints()
+//            }
+//        }
+//    }
     
     var body: some View {
         VStack{
@@ -94,7 +96,6 @@ struct HomeView: View {
                 HStack(alignment: .top){
                     Button(action: {
                         self.goBackWeek()
-                        self.getGoal()
                     }){
                         Text("Last week")
                     }
@@ -103,7 +104,6 @@ struct HomeView: View {
                     Spacer()
                     Button(action: {
                         self.goForwardWeek()
-                        self.getGoal()
                     }){
                         Text("Next Week")
                     }.disabled(self.goalDate.startOfWeek == Date().startOfWeek)
@@ -114,15 +114,31 @@ struct HomeView: View {
             Spacer()
             ScrollView(.vertical, showsIndicators: false){
                 ForEach(sourcesArray, id:\.self){ source in
-                    ProgressCircle(progress: self.goalPoints[source.name] ?? 0.0, goalName:source.readableName, goal:source.goalValue, color: source.color)
+                    ProgressCircle(progress: self.goalPoints[source.name] as? CGFloat ?? 0.0, goalName:source.readableName, goal:CGFloat(self.session.currentFUser.goalMax), color: source.color)
                 }
             }
             Spacer()
         }.onAppear(perform: {
-            self.getGoal()
+//            self.getGoal()
+            if(self.session.goalsForUser.isEmpty){
+                self.session.getUserGoalsFromFirebase(){
+                    print("READ FROM FIREBASE!!")
+                    print("count = \(self.session.goalsForUser.count)")
+                    self.goalPoints = self.session.getUserGoalsFromLocalSession(goalDate: self.goalDate)
+                }
+                HomeView.self.firstAppear = false
+            } else{
+                self.goalPoints = self.session.getUserGoalsFromLocalSession(goalDate: self.goalDate)
+            }
+            print("did it work?")
         })
             .navigationBarItems(trailing: Button(action: {
                 _ = self.session.signOut()
+                HomeView.firstAppear = true
+                LoggedActivityView.firstAppear = true
+                self.session.activitiesForSession = []
+                self.session.goalsForUser = []
+                self.session.loggedActivitiesForUser = []
             }){
                 Text("Sign Out")
             })
